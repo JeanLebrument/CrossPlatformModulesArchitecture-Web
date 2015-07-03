@@ -1,73 +1,62 @@
 'use strict';
 
 var React = require('react');
-var SearchPageAction = require('../../../../Core/Modules/SearchPage/Action/SearchPageAction');
-var SearchPageStore = require('../../../../Core/Modules/SearchPage/Store/SearchPageStore');
+var SearchPageAction = require('../../../Core/Modules/SearchPage/Action/SearchPageAction');
+var SearchPageStore = require('../../../Core/Modules/SearchPage/Store/SearchPageStore');
 var SearchPageOutput = require('../Output/SearchPageOutput');
 
-var {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  TouchableHighlight,
-  ActivityIndicatorIOS,
-  Image,
-  Component
-} = React;
+// var styles = StyleSheet.create({
+//   description: {
+//     marginBottom: 20,
+//     fontSize: 18,
+//     textAlign: 'center',
+//     color: '#656565'
+//   },
+//   container: {
+//     padding: 30,
+//     marginTop: 65,
+//     alignItems: 'center'
+//   },
+//   flowRight: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     alignSelf: 'stretch'
+//   },
+//   buttonText: {
+//     fontSize: 18,
+//     color: 'white',
+//     alignSelf: 'center'
+//   },
+//   button: {
+//     height: 36,
+//     flex: 1,
+//     flexDirection: 'row',
+//     backgroundColor: '#48BBEC',
+//     borderColor: '#48BBEC',
+//     borderWidth: 1,
+//     borderRadius: 8,
+//     marginBottom: 10,
+//     alignSelf: 'stretch',
+//     justifyContent: 'center'
+//   },
+//   searchInput: {
+//     height: 36,
+//     padding: 4,
+//     marginRight: 5,
+//     flex: 4,
+//     fontSize: 18,
+//     borderWidth: 1,
+//     borderColor: '#48BBEC',
+//     borderRadius: 8,
+//     color: '#48BBEC'
+//   },
+//   image: {
+//     width: 217,
+//     height: 138
+//   }
+// });
 
-var styles = StyleSheet.create({
-  description: {
-    marginBottom: 20,
-    fontSize: 18,
-    textAlign: 'center',
-    color: '#656565'
-  },
-  container: {
-    padding: 30,
-    marginTop: 65,
-    alignItems: 'center'
-  },
-  flowRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'stretch'
-  },
-  buttonText: {
-    fontSize: 18,
-    color: 'white',
-    alignSelf: 'center'
-  },
-  button: {
-    height: 36,
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
-  },
-  searchInput: {
-    height: 36,
-    padding: 4,
-    marginRight: 5,
-    flex: 4,
-    fontSize: 18,
-    borderWidth: 1,
-    borderColor: '#48BBEC',
-    borderRadius: 8,
-    color: '#48BBEC'
-  },
-  image: {
-    width: 217,
-    height: 138
-  }
-});
-
-class SearchPageComponent  extends Component {
+class SearchPageComponent  extends React.Component {
   constructor(props) {
     super(props);
 
@@ -123,42 +112,62 @@ class SearchPageComponent  extends Component {
 
   render() {
     var spinner = this.state.isLoading ?
-      ( <ActivityIndicatorIOS
-          hidden='true'
-          size='large'/> ) :
-      ( <View/>);
+      ( <span>Loading...</span>) :
+      ( <span></span>);
 
     return (
-      <View style={styles.container}>
-        <Text style={styles.description}>
-          Search for houses to buy!
-        </Text>
-        <Text style={styles.description}>
-          Search by place-name, postcode or search near your location.
-        </Text>
-        <View style={styles.flowRight}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder='Search via name or postcode'
+      <div id="container">
+        <span class="description">Search for houses to buy!</span>
+        <span class="description">Search by place-name, postcode or search near your location.</span>
+        <div id="flowRight">
+          <input
+            type="text"
+            class="searchInput"
+            placeholder="Search via name or postcode"
             value={this.state.searchString}
-            onChange={this.onSearchTextChanged.bind(this)}/>
-          <TouchableHighlight style={styles.button}
-              underlayColor='#99d9f4'
-              onPress={this.onSearchPressed.bind(this)}>
-            <Text style={styles.buttonText}>Go</Text>
-          </TouchableHighlight>
-        </View>
-        <TouchableHighlight style={styles.button}
-            onPress={this.onLocationPressed.bind(this)}
-            underlayColor='#99d9f4'>
-          <Text style={styles.buttonText}>Location</Text>
-        </TouchableHighlight>
-        <Image src="../../../Resources/Images/house.png" style={styles.image}/>
+            onChange={this.onSearchTextChanged.bind(this)} />
+          <button class="button" underlayColor='#99d9f4' onPress={this.onSearchPressed.bind(this)}>
+            <span class="buttonText">Go</span>
+          </button>
+        </div>
+        <button class="button" onPress={this.onLocationPressed.bind(this)} underlayColor='#99d9f4'>
+          <span class="buttonText">Location</span>
+        </button>
+        <img src="../../../Resources/Images/house.png" id="#image" />
         {spinner}
-        <Text style={styles.description}>{this.state.resultError}</Text>
-      </View>
+        <span class="description">{this.state.resultError}</span>
+      </div>
     );
   }
 }
+
+// <View style={styles.container}>
+//   <Text style={styles.description}>
+//     Search for houses to buy!
+//   </Text>
+//   <Text style={styles.description}>
+//     Search by place-name, postcode or search near your location.
+//   </Text>
+//   <View style={styles.flowRight}>
+//     <TextInput
+//       style={styles.searchInput}
+//       placeholder='Search via name or postcode'
+//       value={this.state.searchString}
+//       onChange={this.onSearchTextChanged.bind(this)}/>
+//     <TouchableHighlight style={styles.button}
+//         underlayColor='#99d9f4'
+//         onPress={this.onSearchPressed.bind(this)}>
+//       <Text style={styles.buttonText}>Go</Text>
+//     </TouchableHighlight>
+//   </View>
+//   <TouchableHighlight style={styles.button}
+//       onPress={this.onLocationPressed.bind(this)}
+//       underlayColor='#99d9f4'>
+//     <Text style={styles.buttonText}>Location</Text>
+//   </TouchableHighlight>
+//   <Image src="../../../Resources/Images/house.png" style={styles.image}/>
+//   {spinner}
+//   <Text style={styles.description}>{this.state.resultError}</Text>
+// </View>
 
 module.exports = SearchPageComponent;
