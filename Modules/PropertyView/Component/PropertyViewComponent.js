@@ -4,7 +4,9 @@ var React = require('react');
 
 class PropertyViewComponent extends React.Component {
 
-  render() {
+  render(props) {
+      super.render(props);
+
     var property = this.props.property;
     var stats = property.bedroom_number + ' bed ' + property.property_type;
 

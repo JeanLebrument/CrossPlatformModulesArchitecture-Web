@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 var React = require('react');
 var SearchResultOutput = require('../Output/SearchResultOutput');
@@ -31,7 +31,7 @@ var SearchResultOutput = require('../Output/SearchResultOutput');
 //   }
 // });
 
-class SearchResultsComponent extends Component {
+class SearchResultsComponent extends React.Component {
 
   constructor(props) {
     super(props);
@@ -62,7 +62,7 @@ class SearchResultsComponent extends Component {
               <img id="thumb" src={{ uri: linsting.img_url }} />
               <div id="textContainer">
                 <span class="price">£{price}</span>
-                <span style="title">{linsting.title}</Text>
+                <span class="title">{linsting.title}</span>
               </div>
             </div>
             <div id="separator" />
