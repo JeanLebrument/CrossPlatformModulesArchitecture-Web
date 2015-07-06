@@ -71,8 +71,6 @@ class SearchPageComponent  extends React.Component {
     var results = SearchPageStore.getResults();
     var formatedLocation = results && results.location ? results.location : '';
 
-    console.log('formatedLocation: ' + formatedLocation);
-
     this.setState({
       searchString: formatedLocation,
       isLoading: false,
@@ -117,25 +115,22 @@ class SearchPageComponent  extends React.Component {
 
     return (
       <div id="container">
-        <span class="description">Search for houses to buy!</span>
-        <span class="description">Search by place-name, postcode or search near your location.</span>
+        <span className="description">Search for houses to buy!</span>
+        <span className="description">Search by place-name, postcode or search near your location.</span>
         <div id="flowRight">
-          <input
-            type="text"
-            class="searchInput"
-            placeholder="Search via name or postcode"
+          <input type="text" className="searchInput" placeholder="Search via name or postcode"
             value={this.state.searchString}
             onChange={this.onSearchTextChanged.bind(this)} />
-          <button class="button" underlayColor='#99d9f4' onPress={this.onSearchPressed.bind(this)}>
-            <span class="buttonText">Go</span>
+          <button className="button" underlayColor='#99d9f4' onClick={this.onSearchPressed.bind(this)}>
+            <span className="buttonText">Go</span>
           </button>
         </div>
-        <button class="button" onPress={this.onLocationPressed.bind(this)} underlayColor='#99d9f4'>
-          <span class="buttonText">Location</span>
+        <button className="button" onClick={this.onLocationPressed.bind(this)} underlayColor='#99d9f4'>
+          <span className="buttonText">Location</span>
         </button>
-        <img src="../../../Resources/Images/house.png" id="#image" />
+        <img src="Resources/Images/house.png" id="#image" />
         {spinner}
-        <span class="description">{this.state.resultError}</span>
+        <span className="description">{this.state.resultError}</span>
       </div>
     );
   }
