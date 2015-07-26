@@ -7,7 +7,7 @@ class PropertyViewComponent extends React.Component {
   render(props) {
       super.render(props);
 
-    var property = this.props.property;
+    // var property = this.props.property;
     var stats = property.bedroom_number + ' bed ' + property.property_type;
 
     if (property.bathroom_number) {

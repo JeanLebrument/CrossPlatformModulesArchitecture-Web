@@ -1,9 +1,7 @@
 'use strict';
 
-var React = require('react');
-var SearchPageAction = require('../../../Core/Modules/SearchPage/Action/SearchPageAction');
-var SearchPageStore = require('../../../Core/Modules/SearchPage/Store/SearchPageStore');
-var SearchPageOutput = require('../Output/SearchPageOutput');
+import React from 'react';
+import { Router, Route, Link } from 'react-router';
 
 // var styles = StyleSheet.create({
 //   description: {
@@ -61,58 +59,53 @@ class SearchPageComponent  extends React.Component {
     super(props);
 
     this.state = {
-      searchString: 'london',
-      isLoading: false,
-      resultError: ''
+      searchString: 'london'
     };
   }
 
-  resultsFounds() {
-    var results = SearchPageStore.getResults();
-    var formatedLocation = results && results.location ? results.location : '';
+  // resultsFounds() {
+  //   var results = SearchPageStore.getResults();
+  //   var formatedLocation = results && results.location ? results.location : '';
+  //
+  //   this.setState({
+  //     searchString: formatedLocation,
+  //     isLoading: false,
+  //     resultError: SearchPageStore.getResultError(),
+  //     results: results
+  //   });
+  //
+  //   // if (results && results.listings &&
+  //   //   (this.state.resultError === '' || !this.state.resultError))
+  //   //   // SearchPageOutput.goToNextModule(this, results.listings);
+  // }
 
-    this.setState({
-      searchString: formatedLocation,
-      isLoading: false,
-      resultError: SearchPageStore.getResultError()
-    });
+  // componentDidMount() {
+  //   SearchPageStore.addChangeListener(this.resultsFounds.bind(this));
+  // }
+  //
+  // componentWillUnmount() {
+  //   SearchPageStore.removeChangeListener(this.resultsFounds.bind(this));
+  // }
 
-    if (results && results.listings &&
-      (this.state.resultError === '' || !this.state.resultError))
-      SearchPageOutput.goToNextModule(this, results.listings);
-  }
-
-  componentDidMount() {
-    SearchPageStore.addChangeListener(this.resultsFounds.bind(this));
-  }
-
-  componentWillUnmount() {
-    SearchPageStore.removeChangeListener(this.resultsFounds.bind(this));
-  }
-
-  onSearchPressed() {
-    if (this.state.isLoading == false) {
-      this.setState({isLoading: true});
-      SearchPageAction.searchResultsForLocation(this.state.searchString);
-    }
-  }
-
-  onLocationPressed() {
-    if (this.state.isLoading == false) {
-      this.setState({isLoading: true});
-      SearchPageAction.searchResultsForCurrentLocation();
-    }
-  }
+  // onSearchPressed() {
+  //   if (this.state.isLoading == false) {
+  //     this.setState({isLoading: true});
+  //     SearchPageAction.searchResultsForLocation(this.state.searchString);
+  //   }
+  // }
+  //
+  // onLocationPressed() {
+  //   if (this.state.isLoading == false) {
+  //     this.setState({isLoading: true});
+  //     SearchPageAction.searchResultsForCurrentLocation();
+  //   }
+  // }
 
   onSearchTextChanged(event) {
-    this.setState({ searchString: event.nativeEvent.text });
+    this.setState({ searchString: event.target.value });
   }
 
   render() {
-    var spinner = this.state.isLoading ?
-      ( <span>Loading...</span>) :
-      ( <span></span>);
-
     return (
       <div id="container">
         <span className="description">Search for houses to buy!</span>
@@ -121,48 +114,17 @@ class SearchPageComponent  extends React.Component {
           <input type="text" className="searchInput" placeholder="Search via name or postcode"
             value={this.state.searchString}
             onChange={this.onSearchTextChanged.bind(this)} />
-          <button className="button" underlayColor='#99d9f4' onClick={this.onSearchPressed.bind(this)}>
-            <span className="buttonText">Go</span>
+          <button className="button" underlayColor='#99d9f4'>
+            <Link className="buttonText" to={`/property_search/${this.state.searchString}`}>Go</Link>
           </button>
         </div>
-        <button className="button" onClick={this.onLocationPressed.bind(this)} underlayColor='#99d9f4'>
-          <span className="buttonText">Location</span>
+        <button className="button" underlayColor='#99d9f4'>
+          <Link className="buttonText" to={`/property_search/current_location`}>Location</Link>
         </button>
         <img src="Resources/Images/house.png" id="#image" />
-        {spinner}
-        <span className="description">{this.state.resultError}</span>
       </div>
     );
   }
 }
-
-// <View style={styles.container}>
-//   <Text style={styles.description}>
-//     Search for houses to buy!
-//   </Text>
-//   <Text style={styles.description}>
-//     Search by place-name, postcode or search near your location.
-//   </Text>
-//   <View style={styles.flowRight}>
-//     <TextInput
-//       style={styles.searchInput}
-//       placeholder='Search via name or postcode'
-//       value={this.state.searchString}
-//       onChange={this.onSearchTextChanged.bind(this)}/>
-//     <TouchableHighlight style={styles.button}
-//         underlayColor='#99d9f4'
-//         onPress={this.onSearchPressed.bind(this)}>
-//       <Text style={styles.buttonText}>Go</Text>
-//     </TouchableHighlight>
-//   </View>
-//   <TouchableHighlight style={styles.button}
-//       onPress={this.onLocationPressed.bind(this)}
-//       underlayColor='#99d9f4'>
-//     <Text style={styles.buttonText}>Location</Text>
-//   </TouchableHighlight>
-//   <Image src="../../../Resources/Images/house.png" style={styles.image}/>
-//   {spinner}
-//   <Text style={styles.description}>{this.state.resultError}</Text>
-// </View>
 
 module.exports = SearchPageComponent;

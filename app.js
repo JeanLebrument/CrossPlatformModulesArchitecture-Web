@@ -7,11 +7,36 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-var React = require('react');
+import React from 'react';
+import { Router, Route } from 'react-router';
+import history from 'react-router/lib/HashHistory';
 
-var SearchPageComponent = require('./Modules/SearchPage/Component/SearchPageComponent');
+import SearchPageComponent from './Modules/SearchPage/Component/SearchPageComponent'
+import PropertyViewComponent from './Modules/PropertyView/Component/PropertyViewComponent'
 
-React.render(
-  <SearchPageComponent />,
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Property Finder</h1>
+        {this.props.children}
+      </div>
+    )
+  }
+}
+
+React.render((
+    <Router history={history}>
+      <Route path="/" component={App}>
+        <Route path="/property_search/" component={SearchPageComponent}>
+          <Route path="/property_search/:location" component={SearchPageComponent} />
+        </Route>
+        <Route path="property_view/" component={PropertyViewComponent}>
+          <Route path="property/:propertyId" component={PropertyViewComponent} />
+        </Route>
+        <Route path="*" component={App}/>
+      </Route>
+    </Router>
+  ),
   document.getElementById('PropertyFinder')
 );
