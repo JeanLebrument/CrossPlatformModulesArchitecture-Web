@@ -9,7 +9,7 @@
 
 import React from 'react';
 import { Router, Route } from 'react-router';
-import history from 'react-router/lib/HashHistory';
+import History from 'react-router/lib/HashHistory';
 
 import SearchPageComponent from './Modules/SearchPage/Component/SearchPageComponent'
 import PropertyViewComponent from './Modules/PropertyView/Component/PropertyViewComponent'
@@ -26,7 +26,7 @@ class App extends React.Component {
 }
 
 React.render((
-    <Router history={history}>
+    <Router history={new History}>
       <Route path="/" component={App}>
         <Route path="/property_search/" component={SearchPageComponent}>
           <Route path="/property_search/:location" component={SearchPageComponent} />
