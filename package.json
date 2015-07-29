@@ -23,7 +23,7 @@
     "babelify": "^6.1.2"
   },
   "scripts": {
-    "start": "watchify -o js/bundle.js -v -d -t babelify app.js",
+    "start": "mkdir -p js && watchify -o js/bundle.js -v -d -t babelify app.js",
     "build": "NODE_ENV=production browserify index.js -t babelify -g uglifyify -o public/bundle.js"
   },
   "author": "Jean Lebrument",
