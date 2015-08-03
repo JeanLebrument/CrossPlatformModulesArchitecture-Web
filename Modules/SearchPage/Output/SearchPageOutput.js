@@ -1,5 +1,5 @@
 'use strict';
-// 
+//
 // var SearchResultsComponent = require('../../SearchResults/Component/SearchResultsComponent');
 //
 // class SearchPageOutput {
