@@ -1,5 +1,7 @@
 "use strict";
 
+import { Router, Route, Link } from 'react-router';
+
 var React = require('react');
 var SearchResultOutput = require('../Output/SearchResultOutput');
 
@@ -31,7 +33,7 @@ var SearchResultOutput = require('../Output/SearchResultOutput');
 //   }
 // });
 
-class SearchResultsComponent extends React.Component {
+class ListItemWrapper extends React.Component {
   rowPressed(propertyGuid) {
     var property = this.props.listings.filter(prop => prop.guid === propertyGuid)[0];
 
@@ -39,30 +41,51 @@ class SearchResultsComponent extends React.Component {
   }
 
   render() {
-    var listingsHTML = [];
-
-    console.log('listings: ' + JSON.stringify(this.props.listings.listings));
-    for (var linsting of this.props.listings.listings) {
-      var price = linsting.price_formatted.split(' ')[0];
-
-      listingsHTML.push(
-        <button onPress={() => this.rowPressed(linsting.guid)} underlayColor='#dddddd'>
+    var price = this.props.result.price_formatted.split(' ')[0];
+    return (
+      <li>
+        <Link to={`property_view/${this.props.result.guid}`} test="tata" >
           <div>
             <div id="rowContainer">
-              <img id="thumb" src={{ uri: linsting.img_url }} />
+              <img id="thumb" src={{ uri: this.props.result.img_url }} />
               <div id="textContainer">
                 <span class="price">£{price}</span>
-                <span class="title">{linsting.title}</span>
+                <span class="title">{this.props.result.title}</span>
               </div>
             </div>
-            <div id="separator" />
-          </div>
-        </button>
+          <div id="separator" />
+        </div>
+      </Link>
+      </li>
+    );
+  }
+}
+
+class SearchResultsComponent extends React.Component {
+
+  render() {
+    var listingsHTML = [];
+
+    if (this.props.listings != undefined) {
+      var map = function (array, callback) {
+        for (var linsting of array) {
+          listingsHTML.push(callback(linsting));
+        }
+        return listingsHTML;
+      }
+
+      return (
+        <ul>
+          {map(this.props.listings.listings, function(result) {
+            return <ListItemWrapper key={result.guid} result={result}/>;
+          })}
+        </ul>
+      );
+    } else {
+      return (
+        <div>{listingsHTML}</div>
       );
     }
-    return (
-      <div>{listingsHTML}</div>
-    );
   }
 }
 
