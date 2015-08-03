@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import { Router, Route } from 'react-router';
+import { Router, Route, Link } from 'react-router';
 import History from 'react-router/lib/HashHistory';
 
 import SearchPageComponent from './Modules/SearchPage/Component/SearchPageComponent'
@@ -19,6 +19,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Property Finder</h1>
+        <Link to="/property_search">Search</Link>
         {this.props.children}
       </div>
     )
@@ -28,11 +29,11 @@ class App extends React.Component {
 React.render((
     <Router history={new History}>
       <Route path="/" component={App}>
-        <Route path="/property_search/" component={SearchPageComponent}>
-          <Route path="/property_search/:location" component={SearchPageComponent} />
+        <Route path="property_search" component={SearchPageComponent}>
+          <Route path=":location" component={SearchPageComponent} />
         </Route>
-        <Route path="property_view/" component={PropertyViewComponent}>
-          <Route path="property/:propertyId" component={PropertyViewComponent} />
+        <Route path="property_view" component={PropertyViewComponent}>
+          <Route path=":propertyId" component={PropertyViewComponent} />
         </Route>
         <Route path="*" component={App}/>
       </Route>
