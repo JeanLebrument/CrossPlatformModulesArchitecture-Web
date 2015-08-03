@@ -2,6 +2,9 @@
 
 import React from 'react';
 import { Router, Route, Link } from 'react-router';
+import SearchPageStore from '../../../Core/Modules/SearchResults/Store/SearchResultsStore'
+import SearchPageAction from '../../../Core/Modules/SearchResults/Action/SearchResultsActionWeb'
+import SearchResultsComponent from '../../SearchResults/Component/SearchResultsComponent'
 
 // var styles = StyleSheet.create({
 //   description: {
@@ -59,53 +62,79 @@ class SearchPageComponent  extends React.Component {
     super(props);
 
     this.state = {
-      searchString: 'london'
+      searchString: 'london',
+      isLoading: false
     };
+
+    var location = this.props.params.location;
+    if (location != undefined) {
+      console.log('onSearchPressed')
+      this.onSearchPressed();
+    }
+
   }
 
-  // resultsFounds() {
-  //   var results = SearchPageStore.getResults();
-  //   var formatedLocation = results && results.location ? results.location : '';
-  //
-  //   this.setState({
-  //     searchString: formatedLocation,
-  //     isLoading: false,
-  //     resultError: SearchPageStore.getResultError(),
-  //     results: results
-  //   });
-  //
-  //   // if (results && results.listings &&
-  //   //   (this.state.resultError === '' || !this.state.resultError))
-  //   //   // SearchPageOutput.goToNextModule(this, results.listings);
-  // }
+  resultsFounds() {
+    var results = SearchPageStore.results;
+    var formatedLocation = results && results.location ? results.location : '';
 
-  // componentDidMount() {
-  //   SearchPageStore.addChangeListener(this.resultsFounds.bind(this));
-  // }
-  //
-  // componentWillUnmount() {
-  //   SearchPageStore.removeChangeListener(this.resultsFounds.bind(this));
-  // }
+    results.map = function(callback) {
+      for (var linsting of results.listings) {
+        callback(linsting);
+      }
+    }
 
-  // onSearchPressed() {
-  //   if (this.state.isLoading == false) {
-  //     this.setState({isLoading: true});
-  //     SearchPageAction.searchResultsForLocation(this.state.searchString);
-  //   }
-  // }
-  //
-  // onLocationPressed() {
-  //   if (this.state.isLoading == false) {
-  //     this.setState({isLoading: true});
-  //     SearchPageAction.searchResultsForCurrentLocation();
-  //   }
-  // }
+    this.setState({
+      searchString: formatedLocation,
+      isLoading: false,
+      resultError: SearchPageStore.resultError,
+      results: results
+    });
+
+    console.log(results);
+    console.log(SearchPageStore.resultError);
+
+    // if (results && results.listings &&
+    //   (this.state.resultError === '' || !this.state.resultError))
+    //   // SearchPageOutput.goToNextModule(this, results.listings);
+  }
+
+  componentDidMount() {
+    SearchPageStore.addChangeListener(this.resultsFounds.bind(this));
+  }
+
+  componentWillUnmount() {
+    SearchPageStore.removeChangeListener(this.resultsFounds.bind(this));
+  }
+
+  onSearchPressed() {
+    if (this.state.isLoading == false) {
+      // this.setState({isLoading: true});
+      SearchPageAction.searchResultsForLocation(this.state.searchString);
+    }
+  }
+
+  onLocationPressed() {
+    if (this.state.isLoading == false) {
+      // this.setState({isLoading: true});
+      SearchPageAction.searchResultsForCurrentLocation();
+    }
+  }
 
   onSearchTextChanged(event) {
     this.setState({ searchString: event.target.value });
   }
 
   render() {
+
+    var resultList;
+    if (this.state.results === undefined) {
+      resultList = <div/>
+    } else {
+      console.log("results not empty")
+      resultList = <SearchResultsComponent listings={this.state.results}/>
+    }
+
     return (
       <div id="container">
         <span className="description">Search for houses to buy!</span>
@@ -121,7 +150,8 @@ class SearchPageComponent  extends React.Component {
         <button className="button" underlayColor='#99d9f4'>
           <Link className="buttonText" to={`/property_search/current_location`}>Location</Link>
         </button>
-        <img src="Resources/Images/house.png" id="#image" />
+        <img src="ressources/images/house.png" id="#image" />
+        {resultList}
       </div>
     );
   }
