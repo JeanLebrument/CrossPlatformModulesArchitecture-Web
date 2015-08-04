@@ -58,31 +58,24 @@ import SearchResultsComponent from '../../SearchResults/Component/SearchResultsC
 // });
 
 class SearchPageComponent  extends React.Component {
+
   constructor(props) {
     super(props);
 
     this.state = {
-      searchString: 'london',
+      searchString: this.props.params.location,
       isLoading: false
     };
 
     var location = this.props.params.location;
     if (location != undefined) {
-      console.log('onSearchPressed')
       this.onSearchPressed();
     }
-
   }
 
   resultsFounds() {
     var results = SearchPageStore.results;
     var formatedLocation = results && results.location ? results.location : '';
-
-    results.map = function(callback) {
-      for (var linsting of results.listings) {
-        callback(linsting);
-      }
-    }
 
     this.setState({
       searchString: formatedLocation,
@@ -90,9 +83,6 @@ class SearchPageComponent  extends React.Component {
       resultError: SearchPageStore.resultError,
       results: results
     });
-
-    console.log(results);
-    console.log(SearchPageStore.resultError);
 
     // if (results && results.listings &&
     //   (this.state.resultError === '' || !this.state.resultError))
@@ -108,17 +98,17 @@ class SearchPageComponent  extends React.Component {
   }
 
   onSearchPressed() {
-    if (this.state.isLoading == false) {
+    if (this.state.isLoading === false) {
       // this.setState({isLoading: true});
       SearchPageAction.searchResultsForLocation(this.state.searchString);
-    }
+     }
   }
 
   onLocationPressed() {
-    if (this.state.isLoading == false) {
+     if (this.state.isLoading === false) {
       // this.setState({isLoading: true});
       SearchPageAction.searchResultsForCurrentLocation();
-    }
+     }
   }
 
   onSearchTextChanged(event) {
@@ -131,7 +121,6 @@ class SearchPageComponent  extends React.Component {
     if (this.state.results === undefined) {
       resultList = <div/>
     } else {
-      console.log("results not empty")
       resultList = <SearchResultsComponent listings={this.state.results}/>
     }
 
@@ -144,11 +133,11 @@ class SearchPageComponent  extends React.Component {
             value={this.state.searchString}
             onChange={this.onSearchTextChanged.bind(this)} />
           <button className="button" underlayColor='#99d9f4'>
-            <Link className="buttonText" to={`/property_search/${this.state.searchString}`}>Go</Link>
+            <Link className="buttonText" to={`property_search/${this.state.searchString}`}>Go</Link>
           </button>
         </div>
         <button className="button" underlayColor='#99d9f4'>
-          <Link className="buttonText" to={`/property_search/current_location`}>Location</Link>
+          <Link className="buttonText" to={`property_search/current_location`}>Location</Link>
         </button>
         <img src="ressources/images/house.png" id="#image" />
         {resultList}

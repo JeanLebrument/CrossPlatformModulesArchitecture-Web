@@ -32,9 +32,7 @@ React.render((
         <Route path="property_search" component={SearchPageComponent}>
           <Route path=":location" component={SearchPageComponent} />
         </Route>
-        <Route path="property_view" component={PropertyViewComponent}>
-          <Route path=":propertyId" component={PropertyViewComponent} />
-        </Route>
+        <Route path="property_view/:propertyId" component={PropertyViewComponent} />
         <Route path="*" component={App}/>
       </Route>
     </Router>
