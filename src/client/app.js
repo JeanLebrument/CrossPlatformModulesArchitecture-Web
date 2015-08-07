@@ -9,10 +9,10 @@
 
 import React from 'react';
 import { Router, Route, Link } from 'react-router';
-import History from 'react-router/lib/HashHistory';
+import History from '../node_modules/react-router/lib/HashHistory';
 
-import SearchPageComponent from './Modules/SearchPage/Component/SearchPageComponent'
-import PropertyViewComponent from './Modules/PropertyView/Component/PropertyViewComponent'
+import SearchPageComponent from 'Modules/SearchPage/Component/SearchPageComponent'
+import PropertyViewComponent from 'Modules/PropertyView/Component/PropertyViewComponent'
 
 class App extends React.Component {
   render() {
